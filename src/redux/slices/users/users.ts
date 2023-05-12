@@ -11,7 +11,19 @@ const initialState = {
 export const usersDataSlice = createSlice({
 	name: 'usersData',
 	initialState,
-	reducers: {},
+	reducers: {
+		sortedData: (state, action) => {
+			const sortedData = state.data.sort((a, b) => {
+				return a[action.payload] > b[action.payload] ? 1 : -1
+			})
+		},
+		// TODO: fix?
+		sortedDataReverse: (state, action) => {
+			const sortedDataReverse = state.data.sort((a, b) => {
+				return a[action.payload] < b[action.payload] ? 1 : -1
+			})
+		}
+	},
 	extraReducers: builder => {
 		// TODO: GET USERSDATA
 		builder.addCase(fetchUsersData.pending, state => {
@@ -29,3 +41,5 @@ export const usersDataSlice = createSlice({
 	}
 })
 export const SelectIsData = (state: RootState) => state.usersData
+
+export const { sortedData, sortedDataReverse } = usersDataSlice.actions

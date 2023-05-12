@@ -11,6 +11,7 @@ import TableNavbar from './TableNavbar'
 const TableData = (): JSX.Element => {
 	const dispatch = useAppDispatch()
 	const { data } = useSelector(SelectIsData)
+
 	useEffect(() => {
 		dispatch(fetchUsersData())
 	}, [])
