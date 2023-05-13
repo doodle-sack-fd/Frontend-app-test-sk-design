@@ -7,7 +7,7 @@ const TableNavbar = (): JSX.Element => {
 	const [isSorted, setIsSorted] = useState(false)
 	const [field, setField] = useState('')
 	const dispatch = useAppDispatch()
-	console.log(field)
+
 	const fieldsName = ['id', 'firstName', 'lastName', 'email', 'phone']
 	const names = ['id', 'First Name', 'Last Name', 'Email', 'Phone']
 
@@ -21,7 +21,7 @@ const TableNavbar = (): JSX.Element => {
 		<thead>
 			<tr>
 				{names.map((item, idx) => (
-					<th onClick={() => sortTableData(fieldsName[idx])}>
+					<th key={item} onClick={() => sortTableData(fieldsName[idx])}>
 						{item} /{' '}
 						{field === fieldsName[idx] ? (isSorted ? 'asc' : 'desc') : ''}
 					</th>

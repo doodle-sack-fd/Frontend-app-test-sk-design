@@ -5,7 +5,8 @@ import { RootState } from '../../store'
 
 const initialState = {
 	data: [],
-	status: 'pending'
+	status: 'pending',
+	selectedRow: null
 }
 
 export const usersDataSlice = createSlice({
@@ -17,15 +18,16 @@ export const usersDataSlice = createSlice({
 				return a[action.payload] > b[action.payload] ? 1 : -1
 			})
 		},
-		// TODO: fix?
 		sortedDataReverse: (state, action) => {
 			const sortedDataReverse = state.data.sort((a, b) => {
 				return a[action.payload] < b[action.payload] ? 1 : -1
 			})
+		},
+		selectRow(state, action) {
+			state.selectedRow = action.payload
 		}
 	},
 	extraReducers: builder => {
-		// TODO: GET USERSDATA
 		builder.addCase(fetchUsersData.pending, state => {
 			state.status = 'pending'
 			state.data = []
@@ -40,6 +42,8 @@ export const usersDataSlice = createSlice({
 		})
 	}
 })
-export const SelectIsData = (state: RootState) => state.usersData
+export const SelectIsData = (state: RootState) => state.usersData.data
+export const SelectedIsRow = (state: RootState) => state.usersData.selectedRow
 
-export const { sortedData, sortedDataReverse } = usersDataSlice.actions
+export const { sortedData, sortedDataReverse, selectRow } =
+	usersDataSlice.actions

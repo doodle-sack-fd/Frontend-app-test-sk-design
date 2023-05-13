@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
+
 import { URL } from '../../api'
 
 export const fetchUsersData = createAsyncThunk('fetchData', async () => {
