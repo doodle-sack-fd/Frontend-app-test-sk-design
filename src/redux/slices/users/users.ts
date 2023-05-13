@@ -3,9 +3,15 @@ import { createSlice } from '@reduxjs/toolkit'
 import { fetchUsersData } from '../../actions/action.creator'
 import { RootState } from '../../store'
 
+export enum StatusKey {
+	LOADING = 'loading',
+	SUCCESS = 'success',
+	ERROR = 'error'
+}
+
 const initialState = {
 	data: [],
-	status: 'pending',
+	status: StatusKey.LOADING,
 	selectedRow: null
 }
 
@@ -29,20 +35,21 @@ export const usersDataSlice = createSlice({
 	},
 	extraReducers: builder => {
 		builder.addCase(fetchUsersData.pending, state => {
-			state.status = 'pending'
+			state.status = StatusKey.LOADING
 			state.data = []
 		})
 		builder.addCase(fetchUsersData.fulfilled, (state, action) => {
-			state.status = 'fulfilled'
+			state.status = StatusKey.SUCCESS
 			state.data = action.payload
 		})
 		builder.addCase(fetchUsersData.rejected, state => {
-			state.status = 'error'
+			state.status = StatusKey.ERROR
 			state.data = []
 		})
 	}
 })
 export const SelectIsData = (state: RootState) => state.usersData.data
+export const SelectIsStatus = (state: RootState) => state.usersData.status
 export const SelectedIsRow = (state: RootState) => state.usersData.selectedRow
 
 export const { sortedData, sortedDataReverse, selectRow } =
