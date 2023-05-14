@@ -3,7 +3,6 @@ import { Table } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
 import { URL, URL_BIG } from '../../api'
-// import { URL_BIG } from '../../api'
 import { fetchUsersData } from '../../redux/actions/action.creator'
 import {
 	SelectIsData,
@@ -17,35 +16,51 @@ import Error from '../error/Error'
 import Loader from '../loader/Loader'
 import ModalWindow from '../modal/ModalWindow'
 import Pagination from '../pagination/Pagination'
+import Search from '../search/Search'
 
 import TableNavbar from './TableNavbar'
 
 const TableData = (): JSX.Element => {
 	const dispatch = useAppDispatch()
-	const [show, setShow] = useState(false)
 
 	const data = useSelector(SelectIsData)
 	const status = useSelector(SelectIsStatus)
 
-	// idx first page
+	const [show, setShow] = useState(false)
+	const [searchText, setSearchText] = useState('')
 	const [currentPage, setCurrentPage] = useState(1)
-	// Data on page
 	const [dataPerPage] = useState(50)
-	// idx last page
+
+	const filteredUsersData = () => {
+		if (!searchText) {
+			return data
+		}
+		return data.filter(element => {
+			return (
+				element.firstName.toLowerCase().includes(searchText.toLowerCase()) ||
+				element.lastName.toLowerCase().includes(searchText.toLowerCase()) ||
+				element.email.toLowerCase().includes(searchText.toLowerCase()) ||
+				element.phone.toLowerCase().includes(searchText.toLowerCase())
+			)
+		})
+	}
+	const searchData = (text: string) => {
+		setSearchText(text)
+	}
+	const filteredData = filteredUsersData()
 	const lastDataIndex = currentPage * dataPerPage
-	// idx first page
 	const firstDataIndex = lastDataIndex - dataPerPage
-	// idx current page
-	const currentDataPage = data.slice(firstDataIndex, lastDataIndex)
+	const currentDataPage = filteredData.slice(firstDataIndex, lastDataIndex)
 
 	const nextPage = (pageNumber: number) => {
 		setCurrentPage(pageNumber)
 	}
+
 	useEffect(() => {
 		dispatch(fetchUsersData(URL))
 	}, [])
 
-	const handleRowClick = item => {
+	const handleRowClick = (item: number) => {
 		dispatch(selectRow(item))
 		setShow(!show)
 	}
@@ -58,6 +73,7 @@ const TableData = (): JSX.Element => {
 		<>
 			<ButtonUI onClick={() => getUsersOnApi(URL)}>32 data</ButtonUI>
 			<ButtonUI onClick={() => getUsersOnApi(URL_BIG)}>1000 data</ButtonUI>
+			<Search searchData={searchData} />
 			<div>
 				<Table
 					style={{ cursor: 'pointer' }}
@@ -86,7 +102,11 @@ const TableData = (): JSX.Element => {
 					)}
 				</Table>
 			</div>
-			<Pagination data={data} nextPage={nextPage} dataPerPage={dataPerPage} />
+			<Pagination
+				data={filteredData}
+				nextPage={nextPage}
+				dataPerPage={dataPerPage}
+			/>
 			<ModalWindow show={show} handleClose={handleClose} />
 		</>
 	)
