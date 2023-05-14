@@ -22,8 +22,7 @@ const TableNavbar = (): JSX.Element => {
 			<tr>
 				{names.map((item, idx) => (
 					<th key={item} onClick={() => sortTableData(fieldsName[idx])}>
-						{item} /{' '}
-						{field === fieldsName[idx] ? (isSorted ? 'asc' : 'desc') : ''}
+						{item} / {field === fieldsName[idx] ? (isSorted ? '↓' : '↑') : ''}
 					</th>
 				))}
 			</tr>
