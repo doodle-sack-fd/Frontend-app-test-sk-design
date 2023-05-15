@@ -13,6 +13,7 @@ import {
 import { useAppDispatch } from '../../redux/store'
 import ButtonUI from '../button/ButtonUI'
 import Error from '../error/Error'
+import Forms from '../form/Forms'
 import Loader from '../loader/Loader'
 import ModalWindow from '../modal/ModalWindow'
 import Pagination from '../pagination/Pagination'
@@ -73,6 +74,7 @@ const TableData = (): JSX.Element => {
 		<>
 			<ButtonUI onClick={() => getUsersOnApi(URL)}>32 data</ButtonUI>
 			<ButtonUI onClick={() => getUsersOnApi(URL_BIG)}>1000 data</ButtonUI>
+			<Forms />
 			<Search searchData={searchData} />
 			<div>
 				<Table

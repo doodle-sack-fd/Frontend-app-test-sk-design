@@ -31,6 +31,9 @@ export const usersDataSlice = createSlice({
 		},
 		selectRow(state, action) {
 			state.selectedRow = action.payload
+		},
+		addUserData: (state, action) => {
+			state.data.unshift(action.payload)
 		}
 	},
 	extraReducers: builder => {
@@ -52,5 +55,5 @@ export const SelectIsData = (state: RootState) => state.usersData.data
 export const SelectIsStatus = (state: RootState) => state.usersData.status
 export const SelectedIsRow = (state: RootState) => state.usersData.selectedRow
 
-export const { sortedData, sortedDataReverse, selectRow } =
+export const { sortedData, sortedDataReverse, selectRow, addUserData } =
 	usersDataSlice.actions
