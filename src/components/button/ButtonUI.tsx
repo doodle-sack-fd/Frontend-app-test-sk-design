@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap'
 
-const ButtonUI = ({ children, onClick }) => {
+const ButtonUI = ({ children, onClick }): JSX.Element => {
 	return (
 		<Button
 			size='lg'

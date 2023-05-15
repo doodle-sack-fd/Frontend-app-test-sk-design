@@ -4,10 +4,10 @@ import { useSelector } from 'react-redux'
 
 import { URL, URL_BIG } from '../../api'
 import { fetchUsersData } from '../../redux/actions/action.creator'
+import { ISelectedRow, StatusKey } from '../../redux/slices/users/types.users'
 import {
 	SelectIsData,
 	SelectIsStatus,
-	StatusKey,
 	selectRow
 } from '../../redux/slices/users/users'
 import { useAppDispatch } from '../../redux/store'
@@ -27,10 +27,10 @@ const TableData = (): JSX.Element => {
 	const data = useSelector(SelectIsData)
 	const status = useSelector(SelectIsStatus)
 
-	const [show, setShow] = useState(false)
-	const [searchText, setSearchText] = useState('')
-	const [currentPage, setCurrentPage] = useState(1)
-	const [dataPerPage] = useState(50)
+	const [show, setShow] = useState<boolean>(false)
+	const [searchText, setSearchText] = useState<string>('')
+	const [currentPage, setCurrentPage] = useState<number>(1)
+	const [dataPerPage] = useState<number>(50)
 
 	const filteredUsersData = () => {
 		if (!searchText) {
@@ -45,30 +45,34 @@ const TableData = (): JSX.Element => {
 			)
 		})
 	}
+
 	const searchData = (text: string) => {
 		setSearchText(text)
 	}
+
 	const filteredData = filteredUsersData()
 	const lastDataIndex = currentPage * dataPerPage
 	const firstDataIndex = lastDataIndex - dataPerPage
 	const currentDataPage = filteredData.slice(firstDataIndex, lastDataIndex)
 
-	const nextPage = (pageNumber: number) => {
-		setCurrentPage(pageNumber)
-	}
-
 	useEffect(() => {
 		dispatch(fetchUsersData(URL))
 	}, [])
 
-	const handleRowClick = (item: number) => {
+	const nextPage = (pageNumber: number) => {
+		setCurrentPage(pageNumber)
+	}
+
+	const handleRowClick = (item: ISelectedRow) => {
 		dispatch(selectRow(item))
 		setShow(!show)
 	}
+
+	const handleClose = () => setShow(false)
+
 	const getUsersOnApi = (url: string) => {
 		dispatch(fetchUsersData(url))
 	}
-	const handleClose = () => setShow(false)
 
 	return (
 		<>
@@ -77,20 +81,20 @@ const TableData = (): JSX.Element => {
 			<Forms />
 			<Search searchData={searchData} />
 			<div>
-				<Table
-					style={{ cursor: 'pointer' }}
-					striped
-					bordered
-					hover
-					variant='dark'
-				>
-					<TableNavbar />
-					{status === StatusKey.LOADING ? (
-						<Loader />
-					) : status === StatusKey.ERROR ? (
-						<Error />
-					) : (
-						currentDataPage.map((item, idx) => (
+				{status === StatusKey.LOADING ? (
+					<Loader />
+				) : status === StatusKey.ERROR ? (
+					<Error />
+				) : (
+					<Table
+						style={{ cursor: 'pointer' }}
+						striped
+						bordered
+						hover
+						variant='dark'
+					>
+						<TableNavbar />
+						{currentDataPage.map((item, idx) => (
 							<tbody key={idx}>
 								<tr onClick={() => handleRowClick(item)}>
 									<td>{item.id}</td>
@@ -100,9 +104,9 @@ const TableData = (): JSX.Element => {
 									<td>{item.phone}</td>
 								</tr>
 							</tbody>
-						))
-					)}
-				</Table>
+						))}
+					</Table>
+				)}
 			</div>
 			<Pagination
 				data={filteredData}

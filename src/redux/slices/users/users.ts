@@ -1,15 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { fetchUsersData } from '../../actions/action.creator'
 import { RootState } from '../../store'
 
-export enum StatusKey {
-	LOADING = 'loading',
-	SUCCESS = 'success',
-	ERROR = 'error'
-}
+import { IDataState, ISelectedRow, IUser, StatusKey } from './types.users'
 
-const initialState = {
+const initialState: IDataState = {
 	data: [],
 	status: StatusKey.LOADING,
 	selectedRow: null
@@ -19,20 +15,20 @@ export const usersDataSlice = createSlice({
 	name: 'usersData',
 	initialState,
 	reducers: {
-		sortedData: (state, action) => {
+		sortedData: (state, action: PayloadAction<string>) => {
 			const sortedData = state.data.sort((a, b) => {
 				return a[action.payload] > b[action.payload] ? 1 : -1
 			})
 		},
-		sortedDataReverse: (state, action) => {
+		sortedDataReverse: (state, action: PayloadAction<string>) => {
 			const sortedDataReverse = state.data.sort((a, b) => {
 				return a[action.payload] < b[action.payload] ? 1 : -1
 			})
 		},
-		selectRow(state, action) {
+		selectRow(state, action: PayloadAction<ISelectedRow>) {
 			state.selectedRow = action.payload
 		},
-		addUserData: (state, action) => {
+		addUserData: (state, action: PayloadAction<IUser>) => {
 			state.data.unshift(action.payload)
 		}
 	},

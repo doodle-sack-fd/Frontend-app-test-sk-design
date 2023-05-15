@@ -2,10 +2,12 @@ import { useState } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 
+import { IUser } from '../../redux/slices/users/types.users'
 import { addUserData } from '../../redux/slices/users/users'
+import ButtonUI from '../button/ButtonUI'
 
-const Forms = () => {
-	const [user, setUser] = useState({
+const Forms = (): JSX.Element => {
+	const [user, setUser] = useState<IUser>({
 		id: null,
 		firstName: '',
 		lastName: '',
@@ -16,14 +18,14 @@ const Forms = () => {
 
 	const dispatch = useDispatch()
 
-	const handleChange = e => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUser({
 			...user,
 			[e.target.name]: e.target.value
 		})
 	}
 
-	const handleSubmit = e => {
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 		dispatch(addUserData(user))
 		setUser({
@@ -39,14 +41,7 @@ const Forms = () => {
 	return (
 		<>
 			{!isOpen ? (
-				<Button
-					size='lg'
-					variant='dark'
-					style={{ margin: '0px 15px 15px 0px' }}
-					onClick={() => setIsOpen(true)}
-				>
-					Post user
-				</Button>
+				<ButtonUI onClick={() => setIsOpen(true)}>Post user</ButtonUI>
 			) : (
 				<Form onSubmit={handleSubmit}>
 					<Form.Group controlId='id'>

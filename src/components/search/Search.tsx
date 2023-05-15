@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Button, Form, InputGroup } from 'react-bootstrap'
 
 const Search = ({ searchData }) => {
-	const [search, setSearch] = useState('')
+	const [search, setSearch] = useState<string>('')
 
 	return (
 		<InputGroup className='mb-3'>
