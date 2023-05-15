@@ -83,7 +83,7 @@ const TableData = (): JSX.Element => {
 			<div>
 				{status === StatusKey.LOADING ? (
 					<Loader />
-				) : status === StatusKey.ERROR ? (
+				) : status === StatusKey.ERROR && !data ? (
 					<Error />
 				) : (
 					<Table
