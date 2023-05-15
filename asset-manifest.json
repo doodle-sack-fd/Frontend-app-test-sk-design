@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/Frontend-app-test-sk-design/static/css/main.c2cab247.css",
-    "main.js": "/Frontend-app-test-sk-design/static/js/main.5eb247a5.js",
+    "main.js": "/Frontend-app-test-sk-design/static/js/main.0e268169.js",
     "index.html": "/Frontend-app-test-sk-design/index.html",
     "main.c2cab247.css.map": "/Frontend-app-test-sk-design/static/css/main.c2cab247.css.map",
-    "main.5eb247a5.js.map": "/Frontend-app-test-sk-design/static/js/main.5eb247a5.js.map"
+    "main.0e268169.js.map": "/Frontend-app-test-sk-design/static/js/main.0e268169.js.map"
   },
   "entrypoints": [
     "static/css/main.c2cab247.css",
-    "static/js/main.5eb247a5.js"
+    "static/js/main.0e268169.js"
   ]
 }
